@@ -1,3 +1,6 @@
+# ===== INSTALLATIONS =====
+# pip install pyo wxpython python-osc vispy
+
 import numpy as np
 from pythonosc import dispatcher, osc_server
 from vispy import app, scene

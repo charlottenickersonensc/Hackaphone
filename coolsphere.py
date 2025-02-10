@@ -1,3 +1,6 @@
+# ===== INSTALLATIONS =====
+# pip install pyaudio PyOpenGL opensimplex
+
 import pyaudio
 import numpy as np
 import pygame

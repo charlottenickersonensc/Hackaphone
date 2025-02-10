@@ -1,3 +1,6 @@
+# ===== INSTALLATIONS =====
+# pip install pyo wxpython
+
 # ===== IMPORTATIONS =====
 import os
 from pyo import *
@@ -73,7 +76,7 @@ def ajuster_parametres(adresse, *args):
 
 # ===== CODE =====
 # Initialisation
-chemin_fichier = os.path.join(os.path.dirname(__file__), "Musiques/Modern Talking - Cheri Cheri Lady.mp3")
+chemin_fichier = os.path.join(os.path.dirname(__file__), "Chansons/Michel Sardou - Les lacs du Connemara.mp3")
 serveur = Server().boot().start()
 
 # Variables de contrôle

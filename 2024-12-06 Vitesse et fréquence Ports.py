@@ -1,3 +1,6 @@
+# ===== INSTALLATIONS =====
+# pip install pyo wxpython
+
 # ===== IMPORTATIONS =====
 import os
 from pyo import *
@@ -59,7 +62,7 @@ def ajuster_frequence(adresse, *args):
 
 # ===== CODE =====
 # Chemin relatif vers le fichier musical
-chemin_fichier = os.path.join(os.path.dirname(__file__), "Musiques/Rick Astley - Never Gonna Give You Up.mp3")
+chemin_fichier = os.path.join(os.path.dirname(__file__), "Chansons/Rick Astley - Never Gonna Give You Up.mp3")
 
 # Initialisation du serveur audio
 serveur = Server().boot().start()

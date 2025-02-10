@@ -1,3 +1,6 @@
+# ===== INSTALLATIONS =====
+# pip install pyaudio PyOpenGL opensimplex pyqtgraph
+
 import numpy as np
 from opensimplex import OpenSimplex
 import pyqtgraph.opengl as gl

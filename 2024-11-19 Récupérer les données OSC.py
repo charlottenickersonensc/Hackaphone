@@ -1,3 +1,6 @@
+# ===== INSTALLATIONS =====
+# pip install pyo wxpython
+
 from pyo import *
 
 def osc_donnees(adresse, *args):
