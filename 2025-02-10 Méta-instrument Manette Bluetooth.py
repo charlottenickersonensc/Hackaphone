@@ -59,27 +59,42 @@ def ajuster_parametres(address, *args):
     Entrées : address (string) désignant le chemin d'envoi des données OSC et args (float) représentant la valeur de l'adresse
     Gère les ajustements des paramètres de la chanson en fonction des données OSC reçues.
     '''
-    global verrouiller_vitesse, vitesse_fixe
+    global verrouillage, vitesse_fixe
 
     if address == "/data/gameController/stick/left/y":
-        valeur_joystick = args[0]  # Valeur entre -1 et 1
-        nouvelle_vitesse = (valeur_joystick + 1)  # Conversion en échelle [0, 2]
+        if selecteur_audio.voice == 0:
+            valeur_joystick = args[0] # Valeur entre -1 et 1
+            nouvelle_vitesse = (valeur_joystick * 0.75 + 1) # Conversion en échelle [0.25, 1.75]
 
-        if not verrouiller_vitesse:  # Mise à jour de la vitesse seulement si pas verrouillé
-            print(f"Vitesse de la musique : {nouvelle_vitesse}")
-            vitesse.value = nouvelle_vitesse
-        else:
-            print(f"Vitesse verrouillée à {vitesse_fixe}")
-    
+            if not verrouillage: # Mise à jour de la vitesse seulement si verrouillage = False
+                print(f"Vitesse de la musique : {nouvelle_vitesse}")
+                vitesse.value = nouvelle_vitesse
+            else:
+                print(f"🔒 Vitesse verrouillée à {vitesse_fixe}")
+
+        elif selecteur_audio.voice == 1:
+            valeur_joystick = args[0] # Valeur entre -1 et 1
+            nouvelle_frequence = (valeur_joystick * 2350 + 2650) # Conversion en échelle [300, 5000]
+
+            print(f"Valeur de la fréquence : {nouvelle_frequence}")
+            frequence.value = nouvelle_frequence
+
     elif address == "/data/gameController/shoulder/left" and args[0] == True:
         # Interrupteur : chaque appui inverse l'état du verrouillage
-        verrouiller_vitesse = not verrouiller_vitesse
+        verrouillage = not verrouillage
 
-        if verrouiller_vitesse:
+        if verrouillage:
             vitesse_fixe = vitesse.value  # On stocke la vitesse actuelle
             print(f"🔒 Vitesse verrouillée à {vitesse_fixe}")
         else:
-            print("🔓 Vitesse déverrouillée, retour au contrôle par joystick")
+            print("🔓 Vitesse déverrouillée")
+    
+    elif address == "/data/gameController/menu" and args[0] == True:
+        selecteur_audio.voice = abs(selecteur_audio.voice - 1)
+        if selecteur_audio.voice == 0:
+            print("⏭  Mode actuel : Vitesse")
+        elif selecteur_audio.voice == 1:
+            print("⏭  Mode actuel : Fréquence")
 
     elif address == "/data/gameController/options" and args[0] == True:
         print("⏭  Changement de chanson")
@@ -94,9 +109,9 @@ serveur = Server().boot().start() # Initialisation du serveur audio
 # Variables de contrôle
 index_chanson_actuelle = 0 # Indice de la première chanson
 vitesse = SigTo(value=1, time=0.1) # Variable pour ajuster la vitesse de la musique
-verrouiller_vitesse = False # Définition d'une variable pour gérer le verrouillage de la vitesse
 vitesse_fixe = 1 # Définition d'une vitesse figée pour le verrouillage
 frequence = SigTo(value=1000, time=0.1) # Variable pour ajuster le filtre passe-bande
+verrouillage = False # Si le verrouillage vaut False, on peut modifier la vitesse ; sinon, on la fige
 
 # Réception des messages OSC
 osc_vitesse = OscDataReceive(port=8000, address="*", function=ajuster_parametres)
