@@ -64,19 +64,14 @@ def ajuster_parametres(address, *args):
     Entrées : address (string) désignant le chemin d'envoi des données OSC et args (float) représentant la valeur de l'adresse
     Gère les ajustements des paramètres de la chanson en fonction des données OSC reçues.
     '''
-    global verrouillage, vitesse_fixe, effet_chorus, effet_distorsion, effet_echo, effet_reverberation, effet_harmonizer, effet_tremolo, effet_phaser, effet_bitcrusher, calques_actifs, dernier_changement
-
-    # Ajout d'un délai minimum de 0.2s pour éviter un spam des données OSC
-    if time.time() - dernier_changement < 0.2:
-        return  
-    dernier_changement = time.time()
+    global verrouillage_vitesse, vitesse_fixe, verrouillage_frequence, frequence_fixe, effet_chorus, effet_distorsion, effet_echo, effet_reverberation, effet_harmonizer, effet_tremolo, effet_phaser, effet_bitcrusher, calques_actifs
 
     if address == "/data/gameController/stick/left/y":
         if selecteur_audio.voice == 0: # Modification de la vitesse
             valeur_joystick = args[0] # Valeur entre -1 et 1
             nouvelle_vitesse = (valeur_joystick * 0.75 + 1) # Conversion en échelle [0.25, 1.75]
 
-            if not verrouillage: # Mise à jour de la vitesse seulement si verrouillage = False
+            if not verrouillage_vitesse: # Mise à jour de la vitesse seulement si verrouillage = False
                 print(f"Vitesse de la musique : {nouvelle_vitesse}")
                 vitesse.value = nouvelle_vitesse
             else:
@@ -86,19 +81,36 @@ def ajuster_parametres(address, *args):
             valeur_joystick = args[0] # Valeur entre -1 et 1
             nouvelle_frequence = (valeur_joystick * 2350 + 2650) # Conversion en échelle [300, 5000]
 
-            print(f"Valeur de la fréquence : {nouvelle_frequence}")
-            frequence.value = nouvelle_frequence
+            if not verrouillage_frequence: # Mise à jour de la fréquence seulement si verrouillage_frequence = False
+                print(f"Valeur de la fréquence : {nouvelle_frequence}")
+                frequence.value = nouvelle_frequence
+            else:
+                print(f"🔒 Fréquence verrouillée à {frequence_fixe}")
 
     elif address == "/data/gameController/shoulder/left" and args[0] == True: # Verrouillage de la vitesse
         # Interrupteur : chaque appui inverse l'état du verrouillage
-        verrouillage = not verrouillage
+        verrouillage_vitesse = not verrouillage_vitesse
 
-        if verrouillage:
+        if verrouillage_vitesse:
             vitesse_fixe = vitesse.value  # On stocke la vitesse actuelle
             print(f"🔒 Vitesse verrouillée à {vitesse_fixe}")
         else:
             print("🔓 Vitesse déverrouillée")
-    
+        calque = os.path.join(dossier_calques, "L.png")
+        ajouter_ou_retirer_calque(calque)
+
+    elif address == "/data/gameController/shoulder/right" and args[0] == True: # Verrouillage de la fréquence
+        # Interrupteur : chaque appui inverse l'état du verrouillage
+        verrouillage_frequence = not verrouillage_frequence
+
+        if verrouillage_frequence:
+            frequence_fixe = frequence.value  # On stocke la fréquence actuelle
+            print(f"🔒 Fréquence verrouillée à {frequence_fixe}")
+        else:
+            print("🔓 Fréquence déverrouillée")
+        calque = os.path.join(dossier_calques, "R.png")
+        ajouter_ou_retirer_calque(calque)
+
     elif address == "/data/gameController/action/left" and args[0] == True: # Effet chorus
         if effet_chorus is None:
             effet_chorus = Chorus(source_audio, depth=0.8, feedback=0.4, bal=0.7, mul=0.5).out()
@@ -106,7 +118,7 @@ def ajuster_parametres(address, *args):
         else:
             effet_chorus = None
             print("🎤 Chorus désactivé.")
-        calque = os.path.join(dossier_calques, "A.png")
+        calque = os.path.join(dossier_calques, "X.png")
         ajouter_ou_retirer_calque(calque)
 
     elif address == "/data/gameController/action/right" and args[0] == True: # Effet distorsion
@@ -126,7 +138,7 @@ def ajuster_parametres(address, *args):
         else:
             effet_echo = None
             print("🔊 Écho désactivé.")
-        calque = os.path.join(dossier_calques, "X.png")
+        calque = os.path.join(dossier_calques, "A.png")
         ajouter_ou_retirer_calque(calque)
 
     elif address == "/data/gameController/action/up" and args[0] == True: # Effet réverbération
@@ -186,14 +198,14 @@ def ajuster_parametres(address, *args):
         calque = os.path.join(dossier_calques, "Flèche haut.png")
         ajouter_ou_retirer_calque(calque)
 
-    elif address == "/data/gameController/menu" and args[0] == True: # Changer de mode
+    elif address == "/data/gameController/trigger/left" and args[0] == True: # Changer de mode
         selecteur_audio.voice = abs(selecteur_audio.voice - 1)
         if selecteur_audio.voice == 0:
             print("⏭  Mode actuel : Vitesse")
         elif selecteur_audio.voice == 1:
             print("⏭  Mode actuel : Fréquence")
 
-    elif address == "/data/gameController/options" and args[0] == True: # Passer à la chanson suivante
+    elif address == "/data/gameController/trigger/right" and args[0] == True: # Passer à la chanson suivante
         print("⏭  Changement de chanson")
         jouer_chanson(index_chanson_actuelle + 1)
 
@@ -249,7 +261,9 @@ index_chanson_actuelle = 0 # Indice de la première chanson
 vitesse = SigTo(value=1, time=0.1) # Variable pour ajuster la vitesse de la musique
 vitesse_fixe = 1 # Définition d'une vitesse figée pour le verrouillage
 frequence = SigTo(value=1000, time=0.1) # Variable pour ajuster le filtre passe-bande
-verrouillage = False # Si le verrouillage vaut False, on peut modifier la vitesse ; sinon, on la fige
+frequence_fixe = 300 # Définition d'une fréquence figée pour le verrouillage
+verrouillage_vitesse = False # Si verrouillage_vitesse vaut False, on peut modifier la vitesse ; sinon, on la fige
+verrouillage_frequence = False # Si verrouillage_frequence vaut False, on peut modifier la fréquence ; sinon, on la fige
 effet_chorus = None # Effet chorus
 effet_distorsion = None # Effet distorsion
 effet_echo = None # Effet écho
@@ -260,7 +274,6 @@ effet_phaser = None # Effet phaser
 effet_bitcrusher = None # Effet bitcrusher
 calques_actifs = set() # Liste des calques actifs (utilisation d'un set pour éviter les doublons)
 image_tk = None # Variable globale pour stocker l’image affichée
-dernier_changement = 0 # Timestamp pour éviter un spam de l'OSC
 
 # Jouer la première chanson
 jouer_chanson(index_chanson_actuelle)
@@ -281,6 +294,9 @@ label_image.image = image_tk # Stocker la référence pour éviter la suppressio
 
 # Réception des messages OSC avec dispatcher
 disp = dispatcher.Dispatcher()
+disp.map("/data/gameController/stick/left/y", ajuster_parametres)
+disp.map("/data/gameController/shoulder/left", ajuster_parametres)
+disp.map("/data/gameController/shoulder/right", ajuster_parametres)
 disp.map("/data/gameController/action/left", ajuster_parametres)
 disp.map("/data/gameController/action/right", ajuster_parametres)
 disp.map("/data/gameController/action/down", ajuster_parametres)
@@ -289,6 +305,8 @@ disp.map("/data/gameController/dpad/left", ajuster_parametres)
 disp.map("/data/gameController/dpad/right", ajuster_parametres)
 disp.map("/data/gameController/dpad/down", ajuster_parametres)
 disp.map("/data/gameController/dpad/up", ajuster_parametres)
+disp.map("/data/gameController/trigger/left", ajuster_parametres)
+disp.map("/data/gameController/trigger/right", ajuster_parametres)
 
 # Initialisation du serveur OSC
 osc = osc_server.ThreadingOSCUDPServer(('0.0.0.0', 8000), disp)
