@@ -151,51 +151,36 @@ def ajuster_parametres(address, *args):
         calque = os.path.join(dossier_calques, "Y.png")
         ajouter_ou_retirer_calque(calque)
 
-    elif address == "/data/gameController/dpad/left" and args[0] == True: # Effet harmonizer
-        if effet_harmonizer is None:
-            env = WinTable(8)
-            wsize = 0.1
-            trans = -7
-            ratio = pow(2.0, trans / 12.0)
-            rate = -(ratio - 1) / wsize
-            ind = Phasor(freq=rate, phase=[0, 0.5])
-            win = Pointer(table=env, index=ind, mul=0.7)
-            effet_harmonizer = Delay(source_audio, delay=ind * wsize, mul=win).mix(1).out()
-            print("🚀 Harmonizer activé.")
-        else:
-            effet_harmonizer = None
-            print("🚀 Harmonizer désactivé.")
+    elif address == "/data/gameController/dpad/left" and args[0] == True: # Son grosse caisse
+        grosse_caisse = SfPlayer(os.path.join(dossier_sons_batterie, "Grosse caisse.mp3"), speed=vitesse, loop=False, mul=0.8).out()
+        print("🥁 Son de grosse caisse")
         calque = os.path.join(dossier_calques, "Flèche gauche.png")
         ajouter_ou_retirer_calque(calque)
+        time.sleep(0.2)
+        ajouter_ou_retirer_calque(calque)
 
-    elif address == "/data/gameController/dpad/right" and args[0] == True: # Effet tremolo
-        if effet_tremolo is None:
-            effet_tremolo = source_audio * (1 - Sine(freq=4, mul=0.5))
-            print("🎛️ Tremolo activé.")
-        else:
-            effet_tremolo = None
-            print("🎛️ Tremolo désactivé.")
+    elif address == "/data/gameController/dpad/right" and args[0] == True: # Son caisse claire
+        grosse_caisse = SfPlayer(os.path.join(dossier_sons_batterie, "Caisse claire.mp3"), speed=vitesse, loop=False, mul=0.8).out()
+        print("🥁 Son de caisse claire")
         calque = os.path.join(dossier_calques, "Flèche droite.png")
         ajouter_ou_retirer_calque(calque)
-
-    elif address == "/data/gameController/dpad/down" and args[0] == True: # Effet phaser
-        if effet_phaser is None:
-            effet_phaser = Phaser(source_audio, freq=0.3, spread=0.7, feedback=0.3, num=8, mul=0.5).out()
-            print("🌌 Phaser activé.")
-        else:
-            effet_phaser = None
-            print("🌌 Phaser désactivé.")
-        calque = os.path.join(dossier_calques, "Flèche bas.png")
+        time.sleep(0.2)
         ajouter_ou_retirer_calque(calque)
 
-    elif address == "/data/gameController/dpad/up" and args[0] == True: # Effet bitcrusher
-        if effet_bitcrusher is None:
-            effet_bitcrusher = Degrade(source_audio, bitdepth=5, srscale=0.5, mul=0.5).out()
-            print("🎮 Bitcrusher activé.")
-        else:
-            effet_bitcrusher = None
-            print("🎮 Bitcrusher désactivé.")
+    elif address == "/data/gameController/dpad/down" and args[0] == True: # Son charleston
+        grosse_caisse = SfPlayer(os.path.join(dossier_sons_batterie, "Charleston.mp3"), speed=vitesse, loop=False, mul=0.8).out()
+        print("🥁 Son de charleston")
+        calque = os.path.join(dossier_calques, "Flèche bas.png")
+        ajouter_ou_retirer_calque(calque)
+        time.sleep(0.2)
+        ajouter_ou_retirer_calque(calque)
+
+    elif address == "/data/gameController/dpad/up" and args[0] == True: # Son cymbale
+        grosse_caisse = SfPlayer(os.path.join(dossier_sons_batterie, "Cymbale.mp3"), speed=vitesse, loop=False, mul=0.8).out()
+        print("🥁 Son de cymbale")
         calque = os.path.join(dossier_calques, "Flèche haut.png")
+        ajouter_ou_retirer_calque(calque)
+        time.sleep(0.2)
         ajouter_ou_retirer_calque(calque)
 
     elif address == "/data/gameController/trigger/left" and args[0] == True: # Changer de mode
@@ -254,6 +239,8 @@ def ajouter_ou_retirer_calque(calque):
 dossier_chansons = os.path.join(os.path.dirname(__file__), "Chansons") # Chemin du dossier contenant les chansons
 musiques = [os.path.join(dossier_chansons, f) for f in os.listdir(dossier_chansons) if f.endswith(".mp3")] # Récupération des chansons
 dossier_calques = os.path.join(os.path.dirname(__file__), "Calques Manette Switch Pro") # Définition du répertoire des calques
+dossier_sons_batterie = os.path.join(os.path.dirname(__file__), "Sons batterie") # Chemin du dossier contenant les sons de batterie
+sons_batterie = [os.path.join(dossier_sons_batterie, f) for f in os.listdir(dossier_sons_batterie) if f.endswith(".mp3")] # Récupération des sons de batterie
 serveur = Server().boot().start() # Initialisation du serveur audio
 
 # Variables de contrôle
