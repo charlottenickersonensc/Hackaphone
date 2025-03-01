@@ -1,14 +1,17 @@
 # ===== INSTALLATIONS =====
-# pip install pyo pillow python-osc
+# pip install pyo pillow python-osc mutagen
 
 # ===== IMPORTATIONS =====
 import os
+import io
 import time
 import threading
 from pyo import *
 import tkinter as tk
 from PIL import Image, ImageTk
 from pythonosc import dispatcher, osc_server
+from mutagen import File
+from mutagen.id3 import ID3, APIC
 
 # ===== FONCTIONS =====
 def jouer_chanson(index):
@@ -41,6 +44,9 @@ def jouer_chanson(index):
     # Lancer le thread de surveillance
     threading.Thread(target=surveiller_fin_chanson, daemon=True).start()
 
+    # Mettre à jour les informations de la chanson
+    afficher_info_chanson(musiques[index_chanson_actuelle])
+
 def surveiller_fin_chanson():
     '''
     Vérifie en continu si la chanson en cours de lecture est terminée en fonction de la vitesse et passe à la suivante si c'est le cas.
@@ -64,7 +70,7 @@ def ajuster_parametres(address, *args):
     Entrées : address (string) désignant le chemin d'envoi des données OSC et args (float) représentant la valeur de l'adresse
     Gère les ajustements des paramètres de la chanson en fonction des données OSC reçues.
     '''
-    global verrouillage_vitesse, vitesse_fixe, verrouillage_frequence, frequence_fixe, effet_chorus, effet_distorsion, effet_echo, effet_reverberation, effet_harmonizer, effet_tremolo, effet_phaser, effet_bitcrusher, calques_actifs
+    global verrouillage_vitesse, vitesse_fixe, verrouillage_frequence, frequence_fixe, effet_chorus, effet_distorsion, effet_echo, effet_reverberation, calques_actifs
 
     if address == "/data/gameController/stick/left/y":
         if selecteur_audio.voice == 0: # Modification de la vitesse
@@ -76,6 +82,7 @@ def ajuster_parametres(address, *args):
                 vitesse.value = nouvelle_vitesse
             else:
                 print(f"🔒 Vitesse verrouillée à {vitesse_fixe}")
+            afficher_parametres()
 
         elif selecteur_audio.voice == 1: # Modification de la fréquence
             valeur_joystick = args[0] # Valeur entre -1 et 1
@@ -86,6 +93,7 @@ def ajuster_parametres(address, *args):
                 frequence.value = nouvelle_frequence
             else:
                 print(f"🔒 Fréquence verrouillée à {frequence_fixe}")
+            afficher_parametres()
 
     elif address == "/data/gameController/shoulder/left" and args[0] == True: # Verrouillage de la vitesse
         # Interrupteur : chaque appui inverse l'état du verrouillage
@@ -96,6 +104,7 @@ def ajuster_parametres(address, *args):
             print(f"🔒 Vitesse verrouillée à {vitesse_fixe}")
         else:
             print("🔓 Vitesse déverrouillée")
+        afficher_parametres()
         calque = os.path.join(dossier_calques, "L.png")
         ajouter_ou_retirer_calque(calque)
 
@@ -108,6 +117,7 @@ def ajuster_parametres(address, *args):
             print(f"🔒 Fréquence verrouillée à {frequence_fixe}")
         else:
             print("🔓 Fréquence déverrouillée")
+        afficher_parametres()
         calque = os.path.join(dossier_calques, "R.png")
         ajouter_ou_retirer_calque(calque)
 
@@ -118,6 +128,7 @@ def ajuster_parametres(address, *args):
         else:
             effet_chorus = None
             print("🎤 Chorus désactivé.")
+        afficher_parametres()
         calque = os.path.join(dossier_calques, "X.png")
         ajouter_ou_retirer_calque(calque)
 
@@ -128,6 +139,7 @@ def ajuster_parametres(address, *args):
         else:
             effet_distorsion = None
             print("🎸 Distorsion désactivée.")
+        afficher_parametres()
         calque = os.path.join(dossier_calques, "B.png")
         ajouter_ou_retirer_calque(calque)
 
@@ -138,16 +150,18 @@ def ajuster_parametres(address, *args):
         else:
             effet_echo = None
             print("🔊 Écho désactivé.")
+        afficher_parametres()
         calque = os.path.join(dossier_calques, "A.png")
         ajouter_ou_retirer_calque(calque)
 
     elif address == "/data/gameController/action/up" and args[0] == True: # Effet réverbération
         if effet_reverberation is None:
             effet_reverberation = Freeverb(source_audio, size=0.9, damp=0.3, bal=0.8, mul=0.6).out()
-            print("🏛️ Réverbération activée.")
+            print("🌀 Réverbération activée.")
         else:
             effet_reverberation = None
-            print("🏛️ Réverbération désactivée.")
+            print("🌀 Réverbération désactivée.")
+        afficher_parametres()
         calque = os.path.join(dossier_calques, "Y.png")
         ajouter_ou_retirer_calque(calque)
 
@@ -160,24 +174,24 @@ def ajuster_parametres(address, *args):
         ajouter_ou_retirer_calque(calque)
 
     elif address == "/data/gameController/dpad/right" and args[0] == True: # Son caisse claire
-        grosse_caisse = SfPlayer(os.path.join(dossier_sons_batterie, "Caisse claire.mp3"), speed=vitesse, loop=False, mul=0.8).out()
-        print("🥁 Son de caisse claire")
+        caisse_claire = SfPlayer(os.path.join(dossier_sons_batterie, "Caisse claire.mp3"), speed=vitesse, loop=False, mul=0.8).out()
+        print("🪘 Son de caisse claire")
         calque = os.path.join(dossier_calques, "Flèche droite.png")
         ajouter_ou_retirer_calque(calque)
         time.sleep(0.2)
         ajouter_ou_retirer_calque(calque)
 
-    elif address == "/data/gameController/dpad/down" and args[0] == True: # Son charleston
-        grosse_caisse = SfPlayer(os.path.join(dossier_sons_batterie, "Charleston.mp3"), speed=vitesse, loop=False, mul=0.8).out()
-        print("🥁 Son de charleston")
+    elif address == "/data/gameController/dpad/down" and args[0] == True: # Son hihat
+        hihat = SfPlayer(os.path.join(dossier_sons_batterie, "Hihat.mp3"), speed=vitesse, loop=False, mul=0.8).out()
+        print("🧨 Son de hihat")
         calque = os.path.join(dossier_calques, "Flèche bas.png")
         ajouter_ou_retirer_calque(calque)
         time.sleep(0.2)
         ajouter_ou_retirer_calque(calque)
 
     elif address == "/data/gameController/dpad/up" and args[0] == True: # Son cymbale
-        grosse_caisse = SfPlayer(os.path.join(dossier_sons_batterie, "Cymbale.mp3"), speed=vitesse, loop=False, mul=0.8).out()
-        print("🥁 Son de cymbale")
+        cymbale = SfPlayer(os.path.join(dossier_sons_batterie, "Cymbale.mp3"), speed=vitesse, loop=False, mul=0.8).out()
+        print("🔔 Son de cymbale")
         calque = os.path.join(dossier_calques, "Flèche haut.png")
         ajouter_ou_retirer_calque(calque)
         time.sleep(0.2)
@@ -234,6 +248,56 @@ def ajouter_ou_retirer_calque(calque):
         calques_actifs.add(calque)
     root.after(10, afficher_image) # Mise à jour fluide avec after()
 
+def afficher_info_chanson(chemin_acces):
+    global label_info_chanson
+
+    fichier = File(chemin_acces)
+    if fichier is not None and isinstance(fichier.tags, ID3):
+        for tag in fichier.tags.values():
+            if isinstance(tag, APIC):
+                image_data = tag.data
+                image = Image.open(io.BytesIO(image_data))
+                image = image.resize((150, 150), Image.LANCZOS) # Redimensionner pour une meilleure résolution
+                image_tk = ImageTk.PhotoImage(image)
+                label_info_chanson.config(image=image_tk)
+                label_info_chanson.image = image_tk
+                break
+
+    nom_fichier = os.path.basename(chemin_acces)
+    label_nom_chanson.config(text=nom_fichier.replace(".mp3", ""))
+
+def afficher_parametres():
+    '''
+    Affiche sur l'interface graphique les différents paramètres de la musique.
+    '''
+    global label_parametres, effet_chorus, effet_distorsion, effet_echo, effet_reverberation
+
+    # Création de la chaîne de texte avec les paramètres
+    if selecteur_audio.voice == 0: # Modification de la vitesse
+        if verrouillage_vitesse:
+            texte_parametres = f"🔒 Vitesse verrouillée à : {vitesse.value:.2f}x\n"
+        else:
+            texte_parametres = f"🔓 Vitesse de la musique : {vitesse.value:.2f}x\n"
+        texte_parametres += f"🔒 Fréquence indisponible en mode vitesse\n"
+    else:
+        if verrouillage_vitesse: # Modification de la fréquence
+            texte_parametres = f"🔒 Vitesse verrouillée à : {vitesse.value:.2f}x\n"
+        else:
+            texte_parametres = f"🔓 Vitesse de la musique : {vitesse.value:.2f}x\n"
+        if verrouillage_frequence:
+            texte_parametres += f"🔒 Fréquence verrouillée à : {vitesse.value:.2f}\n"
+        else:
+            texte_parametres += f"🔓 Fréquence actuelle : {vitesse.value:.2f}\n"
+
+    # Vérification des effets activés
+    texte_parametres += f"🎤 Chorus {'activé' if effet_chorus else 'désactivé'}\n"
+    texte_parametres += f"🎸 Distorsion {'activé' if effet_distorsion else 'désactivé'}\n"
+    texte_parametres += f"🔊 Écho {'activé' if effet_echo else 'désactivé'}\n"
+    texte_parametres += f"🌀 Réverbération {'activé' if effet_reverberation else 'désactivé'}"
+
+    # Mise à jour du label avec les nouveaux paramètres
+    label_parametres.config(text=texte_parametres)
+
 # ===== CODE =====
 # Initialisation
 dossier_chansons = os.path.join(os.path.dirname(__file__), "Chansons") # Chemin du dossier contenant les chansons
@@ -255,15 +319,8 @@ effet_chorus = None # Effet chorus
 effet_distorsion = None # Effet distorsion
 effet_echo = None # Effet écho
 effet_reverberation = None # Effet réverbération
-effet_harmonizer = None # Effet harmonizer
-effet_tremolo = None # Effet tremolo
-effet_phaser = None # Effet phaser
-effet_bitcrusher = None # Effet bitcrusher
 calques_actifs = set() # Liste des calques actifs (utilisation d'un set pour éviter les doublons)
 image_tk = None # Variable globale pour stocker l’image affichée
-
-# Jouer la première chanson
-jouer_chanson(index_chanson_actuelle)
 
 # Création de la fenêtre principale Tkinter
 root = tk.Tk()
@@ -278,6 +335,21 @@ image_de_base = Image.open(os.path.join(dossier_calques, "Manette.png")).convert
 image_tk = ImageTk.PhotoImage(image_de_base)
 label_image.config(image=image_tk)
 label_image.image = image_tk # Stocker la référence pour éviter la suppression
+
+# Initialisation du label pour afficher l'image de la chanson
+label_info_chanson = tk.Label(root, font=("Arial", 14), anchor="n", padx=10, pady=10)
+label_info_chanson.place(relx=1.0, y=50, anchor="ne")
+
+# Initialisation du label pour afficher le nom de la chanson
+label_nom_chanson = tk.Label(root, font=("Arial", 14), anchor="n", padx=10, pady=10)
+label_nom_chanson.place(relx=1.0, y=0, anchor="ne")
+
+# Initialisation du label pour afficher les paramètres
+label_parametres = tk.Label(root, font=("Arial", 12), anchor="nw", padx=10, pady=10, bd=2, relief="ridge", bg="lightgray")
+label_parametres.place(relx=0.01, rely=0.02, anchor="nw")
+
+# Jouer la première chanson
+jouer_chanson(index_chanson_actuelle)
 
 # Réception des messages OSC avec dispatcher
 disp = dispatcher.Dispatcher()
@@ -302,6 +374,9 @@ osc = osc_server.ThreadingOSCUDPServer(('0.0.0.0', 8000), disp)
 server_thread = threading.Thread(target=osc.serve_forever)
 server_thread.daemon = True
 server_thread.start()
+
+# Afficher les paramètres dans l'interface graphique
+afficher_parametres()
 
 # Lancer la boucle principale Tkinter
 root.mainloop()
