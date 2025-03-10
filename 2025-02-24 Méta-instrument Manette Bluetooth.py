@@ -8,6 +8,7 @@ import time
 import threading
 from pyo import *
 import tkinter as tk
+from ctypes import windll
 from PIL import Image, ImageTk
 from pythonosc import dispatcher, osc_server
 from mutagen import File
@@ -197,14 +198,14 @@ def ajuster_parametres(address, *args):
         time.sleep(0.2)
         ajouter_ou_retirer_calque(calque)
 
-    elif address == "/data/gameController/trigger/left" and args[0] == True: # Changer de mode
+    elif address == "/data/gameController/options" and args[0] == True: # Changer de mode
         selecteur_audio.voice = abs(selecteur_audio.voice - 1)
         if selecteur_audio.voice == 0:
             print("⏭  Mode actuel : Vitesse")
         elif selecteur_audio.voice == 1:
             print("⏭  Mode actuel : Fréquence")
 
-    elif address == "/data/gameController/trigger/right" and args[0] == True: # Passer à la chanson suivante
+    elif address == "/data/gameController/menu" and args[0] == True: # Passer à la chanson suivante
         print("⏭  Changement de chanson")
         jouer_chanson(index_chanson_actuelle + 1)
 
@@ -323,6 +324,8 @@ calques_actifs = set() # Liste des calques actifs (utilisation d'un set pour év
 image_tk = None # Variable globale pour stocker l’image affichée
 
 # Création de la fenêtre principale Tkinter
+windll.shcore.SetProcessDpiAwareness(1) # Règle la qualité de l'interface en fonction de la résolution de l'écran
+
 root = tk.Tk()
 root.title("Hackaphone")
 
@@ -364,8 +367,8 @@ disp.map("/data/gameController/dpad/left", ajuster_parametres)
 disp.map("/data/gameController/dpad/right", ajuster_parametres)
 disp.map("/data/gameController/dpad/down", ajuster_parametres)
 disp.map("/data/gameController/dpad/up", ajuster_parametres)
-disp.map("/data/gameController/trigger/left", ajuster_parametres)
-disp.map("/data/gameController/trigger/right", ajuster_parametres)
+disp.map("/data/gameController/options", ajuster_parametres)
+disp.map("/data/gameController/menu", ajuster_parametres)
 
 # Initialisation du serveur OSC
 osc = osc_server.ThreadingOSCUDPServer(('0.0.0.0', 8000), disp)
