@@ -87,7 +87,7 @@ Logo de [Data OSC](https://apps.apple.com/fr/app/data-osc/id6447833736)
    // OU EN FONCTION DE L'UTILISATION :
    python "Méta-instrument Manette Bluetooth.py"
    // Dans ce dernier cas, il est impératif d'avoir connecté sa manette en
-   // Bluetooth au téléphone et d'avoir cocher Controller dans Data OSC
+   // Bluetooth au téléphone et d'avoir coché Controller dans Data OSC
    ```
 
 6. Il est possible d'ajouter des musiques. Nous avons utilisés [spotDL](https://github.com/spotDL/spotify-downloader) pour obtenir les chansons voulues et notamment pour récupérer leurs miniatures qui sont affichées dans l'interface graphique. Les chansons sont à ajouter au format **.mp3** dans le dossier **Chansons**.
