@@ -3,7 +3,7 @@
 
 ## Auteurs
 
-* 👤 [**MAZOUFFRE Jolan**](https://github.com/)
+* 👤 [**MAZOUFFRE Jolan**](https://github.com/nalokage)
 * 👤 [**NICKERSON Charlotte**](https://github.com/charlottenickersonensc)
 * 👤 [**PAWELCZYK Baptiste**](https://github.com/baptiste5403)
 * 👤 [**SAAB Alyaa**](https://github.com/alyaa203)
@@ -31,7 +31,7 @@
 
 <h2 id="à-propos-du-projet">À propos du projet</h2>
 
-<img src="hackaphone.png" alt="Interface graphique du méta-instrument avec une manette Bluetooth" />
+<img src="Hackaphone.png" alt="Interface graphique du méta-instrument avec une manette Bluetooth" />
 
 ## Devenez DJ avec Hackaphone !
 
@@ -41,9 +41,9 @@ Notre but est de créer un tout nouvel instrument de musique 🎵 qui permet de 
 
 On peut utiliser le méta-instrument de deux façons différentes :
 
-● soit avec un téléphone 📱 et dans ce cas il faut lancer le fichier **Méta-instrument Téléphone.py** ;
+● soit avec un téléphone 📱 et dans ce cas il faut lancer le fichier **Méta-instrument iPhone.bat** ;
 
-● soit avec une manette Bluetooth de jeu vidéo 🎮 et dans ce cas il faut lancer le fichier **Méta-instrument Manette Bluetooth.py**.
+● soit avec une manette Bluetooth de jeu vidéo 🎮 et dans ce cas il faut lancer le fichier **Méta-instrument Manette Bluetooth.bat**.
 
 <h2 id="prérequis">Prérequis</h2>
 
@@ -79,23 +79,16 @@ Logo de [Data OSC](https://apps.apple.com/fr/app/data-osc/id6447833736)
    pip install -r requirements.txt
    ```
 
-4. Ouvrir sur le téléphone **Data OSC**, et se connecter au même réseau pour l'ordinateur et le téléphone. Cochez **OSC** puis dans le champ **IP Address**, renseignez l'adresse IP du réseau.
+4. Ouvrir sur le téléphone l'application **Data OSC**, et se connecter au même réseau Wi-Fi **privé** sur l'ordinateur et sur le téléphone. Cochez **OSC** puis dans le champ **IP Address**, renseignez l'adresse IP du réseau Wi-Fi (adresse IPv4).
 
-5. Lancer le projet
-   ```
-   python "Méta-instrument Téléphone.py"
-   // OU EN FONCTION DE L'UTILISATION :
-   python "Méta-instrument Manette Bluetooth.py"
-   // Dans ce dernier cas, il est impératif d'avoir connecté sa manette en
-   // Bluetooth au téléphone et d'avoir coché Controller dans Data OSC
-   ```
+5. Lancer le projet : il faut double-cliquer sur le fichier **"Méta-instrument iPhone.bat"** ou en fonction de l'utilisation sur **"Méta-instrument Manette Bluetooth.bat"**. Dans ce dernier cas, il est impératif d'avoir connecté sa manette en Bluetooth au téléphone et d'avoir coché **Controller** dans Data OSC.
 
 6. Il est possible d'ajouter des musiques. Nous avons utilisés [spotDL](https://github.com/spotDL/spotify-downloader) pour obtenir les chansons voulues et notamment pour récupérer leurs miniatures qui sont affichées dans l'interface graphique. Les chansons sont à ajouter au format **.mp3** dans le dossier **Chansons**.
 
 <h2 id="utilisés-dans-ce-projet">Utilisés dans ce projet</h2>
 
-| Langage         | Applications       |
-| :-------------: | :--------------:   |
-| Python          | Pure Data          |
-|                 | Visual Studio Code |
-|                 | Git / GitHub       |
+| Langage         | Applications                                          |
+| :-------------: | :--------------:                                      |
+| Python          | Pure Data (n'est plus utilisé dans la version finale) |
+|                 | Visual Studio Code                                    |
+|                 | Git / GitHub                                          |

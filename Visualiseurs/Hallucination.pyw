@@ -1,3 +1,6 @@
+# ===== INSTALLATIONS =====
+# pip install numpy pyaudio pygame scipy
+
 import pygame
 import pygame.gfxdraw
 import numpy as np
@@ -37,8 +40,8 @@ class PsychedelicVisualizer:
         pygame.init()
         info = pygame.display.Info()
         self.WIDTH, self.HEIGHT = info.current_w, info.current_h
-        self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT), pygame.FULLSCREEN)
-        pygame.display.set_caption("Psychedelic Audio Visualizer")
+        self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT), pygame.RESIZABLE | pygame.NOFRAME)
+        pygame.display.set_caption("Visualiseur")
         self.clock = pygame.time.Clock()
         
         # Color parameters - faster color cycling

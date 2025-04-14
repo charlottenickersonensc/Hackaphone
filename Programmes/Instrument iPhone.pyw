@@ -1,5 +1,5 @@
 # ===== INSTALLATIONS =====
-# pip install pyo pillow python-osc mutagen
+# pip install mutagen pillow pyo python-osc
 
 # ===== IMPORTATIONS =====
 import os
@@ -7,7 +7,6 @@ import io
 import time
 import threading
 from pyo import *
-import numpy as np
 import tkinter as tk
 from ctypes import windll
 from PIL import Image, ImageTk
@@ -198,7 +197,7 @@ def afficher_parametres():
 
 # ===== CODE =====
 # Initialisation
-dossier_chansons = os.path.join(os.path.dirname(__file__), "Chansons") # Chemin du dossier contenant les chansons
+dossier_chansons = os.path.join(os.path.dirname(__file__), "..\Chansons") # Chemin du dossier contenant les chansons
 musiques = [os.path.join(dossier_chansons, f) for f in os.listdir(dossier_chansons) if f.endswith(".mp3")] # Récupération des chansons
 serveur = Server().boot().start() # Initialisation du serveur audio
 

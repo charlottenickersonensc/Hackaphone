@@ -1,18 +1,20 @@
 # ===== INSTALLATIONS =====
-# pip install pyo pillow python-osc mutagen
+# pip install mutagen pillow pyo python-osc pywin32
 
 # ===== IMPORTATIONS =====
 import os
 import io
 import time
+import win32con
+import win32gui
 import threading
 from pyo import *
 import tkinter as tk
 from ctypes import windll
-from PIL import Image, ImageTk
-from pythonosc import dispatcher, osc_server
 from mutagen import File
 from mutagen.id3 import ID3, APIC
+from PIL import Image, ImageTk
+from pythonosc import dispatcher, osc_server
 
 # ===== FONCTIONS =====
 def jouer_chanson(index):
@@ -208,6 +210,26 @@ def ajuster_parametres(address, *args):
     elif address == "/data/gameController/menu" and args[0] == True: # Passer à la chanson suivante
         print("⏭  Changement de chanson")
         jouer_chanson(index_chanson_actuelle + 1)
+    
+    elif address == "/data/gameController/home" and args[0] == True: # Changer de fenêtre
+        foreground_hwnd = win32gui.GetForegroundWindow()
+        fenetre = win32gui.GetWindowText(foreground_hwnd)
+        if fenetre == "Hackaphone":
+            passer_premier_plan("Visualiseur")
+        else:
+            passer_premier_plan("Hackaphone")
+
+def passer_premier_plan(fenetre):
+    '''
+    Entrée : fenetre (str) représentant le nom de la fenêtre au premier plan
+    Permet de choisir entre la fenêtre "Hackaphone" et la fenêtre "Visualiseur".
+    '''
+    hwnd = win32gui.FindWindow(None, fenetre)
+    if hwnd != 0:
+        win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
+        win32gui.SetForegroundWindow(hwnd)
+        return True
+    return False
 
 def superposer_calques(calque_base, calques):
     '''
@@ -303,10 +325,10 @@ def afficher_parametres():
 
 # ===== CODE =====
 # Initialisation
-dossier_chansons = os.path.join(os.path.dirname(__file__), "Chansons") # Chemin du dossier contenant les chansons
+dossier_chansons = os.path.join(os.path.dirname(__file__), "..\Chansons") # Chemin du dossier contenant les chansons
 musiques = [os.path.join(dossier_chansons, f) for f in os.listdir(dossier_chansons) if f.endswith(".mp3")] # Récupération des chansons
-dossier_calques = os.path.join(os.path.dirname(__file__), "Calques Manette Switch Pro") # Définition du répertoire des calques
-dossier_sons_batterie = os.path.join(os.path.dirname(__file__), "Sons batterie") # Chemin du dossier contenant les sons de batterie
+dossier_calques = os.path.join(os.path.dirname(__file__), "..\Calques Manette Switch Pro") # Définition du répertoire des calques
+dossier_sons_batterie = os.path.join(os.path.dirname(__file__), "..\Sons batterie") # Chemin du dossier contenant les sons de batterie
 sons_batterie = [os.path.join(dossier_sons_batterie, f) for f in os.listdir(dossier_sons_batterie) if f.endswith(".mp3")] # Récupération des sons de batterie
 serveur = Server().boot().start() # Initialisation du serveur audio
 
@@ -330,6 +352,7 @@ windll.shcore.SetProcessDpiAwareness(1) # Règle la qualité de l'interface en f
 
 root = tk.Tk()
 root.title("Hackaphone")
+root.state('zoomed') # Pour mettre la fenêtre en plein écran
 
 # Création du label pour afficher l'image
 label_image = tk.Label(root)
@@ -371,6 +394,7 @@ disp.map("/data/gameController/dpad/down", ajuster_parametres)
 disp.map("/data/gameController/dpad/up", ajuster_parametres)
 disp.map("/data/gameController/options", ajuster_parametres)
 disp.map("/data/gameController/menu", ajuster_parametres)
+disp.map("/data/gameController/home", ajuster_parametres)
 
 # Initialisation du serveur OSC
 osc = osc_server.ThreadingOSCUDPServer(('0.0.0.0', 8000), disp)

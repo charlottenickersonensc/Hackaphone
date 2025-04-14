@@ -1,3 +1,6 @@
+# ===== INSTALLATIONS =====
+# pip install numpy pyaudio pygame scipy
+
 import numpy as np
 import pyaudio
 import pygame
