@@ -206,12 +206,13 @@ def ajuster_parametres(address, *args):
             print("⏭  Mode actuel : Vitesse")
         elif selecteur_audio.voice == 1:
             print("⏭  Mode actuel : Fréquence")
+        afficher_parametres()
 
     elif address == "/data/gameController/menu" and args[0] == True: # Passer à la chanson suivante
         print("⏭  Changement de chanson")
         jouer_chanson(index_chanson_actuelle + 1)
     
-    elif address == "/data/gameController/home" and args[0] == True: # Changer de fenêtre
+    elif address == "/data/gameController/stick/right/active" and args[0] == True: # Changer de fenêtre
         foreground_hwnd = win32gui.GetForegroundWindow()
         fenetre = win32gui.GetWindowText(foreground_hwnd)
         if fenetre == "Hackaphone":
@@ -303,16 +304,13 @@ def afficher_parametres():
         else:
             texte_parametres += f"🔓 Vitesse de la musique : {vitesse.value:.2f}x\n"
         texte_parametres += f"🔒 Fréquence indisponible en mode vitesse\n"
-    else:
+    else: # Modification de la fréquence
         texte_parametres = "📳 MODE ACTUEL : FRÉQUENCE\n"
-        if verrouillage_vitesse: # Modification de la fréquence
-            texte_parametres += f"🔒 Vitesse verrouillée à : {vitesse.value:.2f}x\n"
-        else:
-            texte_parametres += f"🔓 Vitesse de la musique : {vitesse.value:.2f}x\n"
+        texte_parametres += f"🔒 Vitesse verrouillée à : {vitesse.value:.2f}x\n"
         if verrouillage_frequence:
-            texte_parametres += f"🔒 Fréquence verrouillée à : {vitesse.value:.2f}\n"
+            texte_parametres += f"🔒 Fréquence verrouillée à : {frequence.value:.2f} Hz\n"
         else:
-            texte_parametres += f"🔓 Fréquence actuelle : {vitesse.value:.2f}\n"
+            texte_parametres += f"🔓 Fréquence actuelle : {frequence.value:.2f} Hz\n"
 
     # Vérification des effets activés
     texte_parametres += f"🎤 Chorus {'🔴' if effet_chorus else '⭕'}\n"
@@ -394,7 +392,7 @@ disp.map("/data/gameController/dpad/down", ajuster_parametres)
 disp.map("/data/gameController/dpad/up", ajuster_parametres)
 disp.map("/data/gameController/options", ajuster_parametres)
 disp.map("/data/gameController/menu", ajuster_parametres)
-disp.map("/data/gameController/home", ajuster_parametres)
+disp.map("/data/gameController/stick/right/active", ajuster_parametres)
 
 # Initialisation du serveur OSC
 osc = osc_server.ThreadingOSCUDPServer(('0.0.0.0', 8000), disp)
