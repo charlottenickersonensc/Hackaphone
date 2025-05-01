@@ -22,18 +22,22 @@ def jouer_chanson(index):
     Entrée : index (entier) représentant le numéro de la chanson dans la file de lecture
     Joue une chanson et surveille sa progression pour enchaîner automatiquement.
     '''
-    global source_audio, filtre_audio, selecteur_audio, index_chanson_actuelle
+    global source_audio, filtre_audio, selecteur_audio, index_chanson_actuelle, stop_event
 
     index_chanson_actuelle = index % len(musiques)
     chemin_fichier = musiques[index_chanson_actuelle]
-
-    print(f"🎵 Lecture de : {chemin_fichier}")
+    print(f"🎵 Lecture de : {os.path.splitext(os.path.basename(chemin_fichier))[0]}") # Afficher le nom de la chanson sans l'extension
 
     # Arrêter l’ancienne source
     try:
         source_audio.stop()
     except NameError:
         pass # Si c'est la première lecture, il n'y a pas encore de source définie
+
+    if stop_event is not None:
+        stop_event.set() # On signale l’arrêt du thread précédent
+
+    stop_event = threading.Event() # (Re)création d’un nouvel Event pour le thread courant
 
     # Chargement de la chanson
     source_audio = SfPlayer(chemin_fichier, speed=vitesse, loop=False, mul=0.8)
@@ -44,29 +48,37 @@ def jouer_chanson(index):
     # Sélectionneur pour basculer entre changement de vitesse et son filtré
     selecteur_audio = Selector([source_audio, filtre_audio], voice=0).out()
 
-    # Lancer le thread de surveillance
-    threading.Thread(target=surveiller_fin_chanson, daemon=True).start()
+    # Démarrage du thread de surveillance avec l’Event en paramètre
+    threading.Thread(target=surveiller_fin_chanson, args=(stop_event,), daemon=True).start()
 
     # Mettre à jour les informations de la chanson
-    afficher_info_chanson(musiques[index_chanson_actuelle])
+    afficher_info_chanson(chemin_fichier)
 
-def surveiller_fin_chanson():
+def surveiller_fin_chanson(stop_event):
     '''
-    Vérifie en continu si la chanson en cours de lecture est terminée en fonction de la vitesse et passe à la suivante si c'est le cas.
+    Entrée : stop_event (threading.Event) qui communique avec le thread de surveillance pour lui demander de s'arrêter proprement
+    Boucle de surveillance qui s'arrête dès que stop_event.is_set() est True.
+    Passe automatiquement à la piste suivante dès que le temps virtuel est supérieur à la durée originale.
     '''
-    lecture_active = True
-    duree_originale = sndinfo(musiques[index_chanson_actuelle])[1] # Durée en secondes de la chanson
+    duree_originale = sndinfo(musiques[index_chanson_actuelle])[1]
+    temps_virtuel = 0.0
+    dernier_temps_reel = time.time()
 
-    debut = time.time()
-    while lecture_active:
-        duree_adaptee = duree_originale / vitesse.value # Ajustement en fonction de la vitesse
-        temps_ecoule = time.time() - debut
+    while not stop_event.is_set():
+        maintenant = time.time()
+        delta = maintenant - dernier_temps_reel
+        dernier_temps_reel = maintenant
 
-        if temps_ecoule >= duree_adaptee:
+        temps_virtuel += delta * vitesse.value # Pondération par la vitesse actuelle
+
+        # Si la piste est terminée, on déclenche la suivante
+        if temps_virtuel >= duree_originale:
+            # On signale l’arrêt de CE thread avant d’appeler jouer_chanson
+            stop_event.set()
             jouer_chanson(index_chanson_actuelle + 1)
-            break
+            return
 
-        time.sleep(0.1)
+        time.sleep(0.05)
 
 def ajuster_parametres(address, *args):
     '''
@@ -81,10 +93,10 @@ def ajuster_parametres(address, *args):
             nouvelle_vitesse = valeur_joystick * 0.75 + 1 # Conversion en échelle [0.25, 1.75]
 
             if not verrouillage_vitesse: # Mise à jour de la vitesse seulement si verrouillage = False
-                print(f"Vitesse de la musique : {nouvelle_vitesse}")
+                print(f"Vitesse de la musique : {nouvelle_vitesse:.2f}x")
                 vitesse.value = nouvelle_vitesse
             else:
-                print(f"🔒 Vitesse verrouillée à {vitesse_fixe}")
+                print(f"🔒 Vitesse verrouillée à {vitesse_fixe:.2f}x")
             afficher_parametres()
 
         elif selecteur_audio.voice == 1: # Modification de la fréquence
@@ -92,10 +104,10 @@ def ajuster_parametres(address, *args):
             nouvelle_frequence = valeur_joystick * 2350 + 2650 # Conversion en échelle [300, 5000]
 
             if not verrouillage_frequence: # Mise à jour de la fréquence seulement si verrouillage_frequence = False
-                print(f"Valeur de la fréquence : {nouvelle_frequence}")
+                print(f"Valeur de la fréquence : {nouvelle_frequence:.2f} Hz")
                 frequence.value = nouvelle_frequence
             else:
-                print(f"🔒 Fréquence verrouillée à {frequence_fixe}")
+                print(f"🔒 Fréquence verrouillée à {frequence_fixe:.2f} Hz")
             afficher_parametres()
 
     elif address == "/data/gameController/shoulder/left" and args[0] == True: # Verrouillage de la vitesse
@@ -104,7 +116,7 @@ def ajuster_parametres(address, *args):
 
         if verrouillage_vitesse:
             vitesse_fixe = vitesse.value  # On stocke la vitesse actuelle
-            print(f"🔒 Vitesse verrouillée à {vitesse_fixe}")
+            print(f"🔒 Vitesse verrouillée à {vitesse_fixe:.2f}x")
         else:
             print("🔓 Vitesse déverrouillée")
         afficher_parametres()
@@ -117,7 +129,7 @@ def ajuster_parametres(address, *args):
 
         if verrouillage_frequence:
             frequence_fixe = frequence.value  # On stocke la fréquence actuelle
-            print(f"🔒 Fréquence verrouillée à {frequence_fixe}")
+            print(f"🔒 Fréquence verrouillée à {frequence_fixe:.2f} Hz")
         else:
             print("🔓 Fréquence déverrouillée")
         afficher_parametres()
@@ -331,6 +343,7 @@ sons_batterie = [os.path.join(dossier_sons_batterie, f) for f in os.listdir(doss
 serveur = Server().boot().start() # Initialisation du serveur audio
 
 # Variables de contrôle
+stop_event = None
 index_chanson_actuelle = 0 # Indice de la première chanson
 vitesse = SigTo(value=1, time=0.1) # Variable pour ajuster la vitesse de la musique
 vitesse_fixe = 1 # Définition d'une vitesse figée pour le verrouillage
