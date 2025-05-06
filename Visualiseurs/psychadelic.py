@@ -7,7 +7,6 @@ import math
 import random
 from scipy.fft import fft
 import sys
-import os
 from collections import deque
 
 class PsychedelicVisualizer:
@@ -409,11 +408,6 @@ class PsychedelicVisualizer:
         """Main loop for the visualizer"""
         running = True
         try:
-            # Check if we should keep running until explicitly stopped
-            keep_running = os.environ.get('KEEP_RUNNING') == 'true'
-            if keep_running:
-                print("Visualization will run until explicitly stopped.")
-            
             while running:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
@@ -421,7 +415,7 @@ class PsychedelicVisualizer:
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
                             running = False
-                        # Controls for sensitivity adjustment
+                        # NEW: Add keyboard controls for sensitivity adjustment
                         elif event.key == pygame.K_UP:
                             self.AUDIO_AMPLIFICATION *= 1.5
                             print(f"Audio amplification: {self.AUDIO_AMPLIFICATION:.1f}")
