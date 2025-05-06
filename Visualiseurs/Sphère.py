@@ -6,6 +6,8 @@ from pythonosc import dispatcher, osc_server
 from vispy import app, scene
 import threading
 import time
+import os
+import sys
 
 class MusicVisualizer:
     def __init__(self):
@@ -135,7 +137,17 @@ def main():
     
     # Run the visualization
     visualizer.canvas.show()
-    app.run()
+    
+    # Check if we should keep the visualization running indefinitely
+    if os.environ.get('KEEP_RUNNING') == 'true':
+        print("Visualization will run until explicitly stopped.")
+        try:
+            app.run(framerate=60)  # Specify framerate to ensure smooth animation
+        except KeyboardInterrupt:
+            print("Visualization stopped by user")
+    else:
+        # Legacy behavior - run for a short time
+        app.run(framerate=60)
 
 if __name__ == '__main__':
     main()

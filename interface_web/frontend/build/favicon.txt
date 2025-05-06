@@ -1,0 +1,2 @@
+Ce fichier représente un emplacement pour le favicon.
+Dans un environnement réel, vous devriez remplacer ce fichier par une véritable image favicon.ico.
