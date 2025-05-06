@@ -1,0 +1,85 @@
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+/* Styles pour les cartes de visualisation */
+.visualization-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.visualization-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.visualization-card-content {
+  flex-grow: 1;
+}
+
+.visualization-card .MuiCardMedia-root {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.status-indicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.status-running {
+  background-color: #4caf50;
+  box-shadow: 0 0 10px #4caf50;
+  animation: pulse 1.5s infinite;
+}
+
+.status-stopped {
+  background-color: #f44336;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.7;
+    box-shadow: 0 0 5px #4caf50;
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 15px #4caf50;
+  }
+  100% {
+    opacity: 0.7;
+    box-shadow: 0 0 5px #4caf50;
+  }
+}
+
+/* Styles pour la page du visualiseur */
+.visualizer-control-panel {
+  background-color: rgba(30, 30, 30, 0.8);
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* Animation pour le loader */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
