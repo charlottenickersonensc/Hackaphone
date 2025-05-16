@@ -254,13 +254,7 @@ jouer_chanson(index_chanson_actuelle)
 
 # Réception des messages OSC avec dispatcher
 disp = dispatcher.Dispatcher()
-disp.map("/data/compass/trueNorth", ajuster_parametres)
-disp.map("/data/microphone/active", ajuster_parametres)
-disp.map("/data/motion/gyroscope/active", ajuster_parametres)
-disp.map("/data/location/active", ajuster_parametres)
-disp.map("/data/gameController/active", ajuster_parametres)
-disp.map("/data/compass/active", ajuster_parametres)
-disp.map("/data/faceTracking/active", ajuster_parametres)
+disp.map("/data/*", ajuster_parametres)
 
 # Initialisation du serveur OSC
 osc = osc_server.ThreadingOSCUDPServer(('0.0.0.0', 8000), disp)

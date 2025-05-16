@@ -58,9 +58,18 @@ La programmation a été faite en Python dans sa version **3.11.9**. Il est néc
 
 Il est également nécessaire d'avoir un **iPhone** car il est indispensable pour le projet de télécharger l'application [Data OSC](https://apps.apple.com/fr/app/data-osc/id6447833736). Il est nécessaire pour cela d'avoir iOS 16.0 ou une version ultérieure.
 
-<img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/8a/51/3f/8a513faa-9dfb-3d3a-78db-9f2bed4dcfad/AppIcon-0-0-85-220-0-5-0-2x-sRGB.png/246x0w.webp" alt="Logo de Data OSC" width=150px/>
-
-Logo de [Data OSC](https://apps.apple.com/fr/app/data-osc/id6447833736)
+<p align="center">
+  <a href="https://apps.apple.com/fr/app/data-osc/id6447833736" target="_blank">
+    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/8a/51/3f/8a513faa-9dfb-3d3a-78db-9f2bed4dcfad/AppIcon-0-0-85-220-0-5-0-2x-sRGB.png/246x0w.webp" 
+         alt="Logo de Data OSC" width="150px"/>
+  </a>
+</p>
+<p align="center">
+  Logo de 
+  <a href="https://apps.apple.com/fr/app/data-osc/id6447833736" target="_blank">
+    Data OSC
+  </a>
+</p>
 
 <h3 id="installation">Installation</h3>
 
@@ -83,7 +92,7 @@ Logo de [Data OSC](https://apps.apple.com/fr/app/data-osc/id6447833736)
 
 5. Lancer le projet : il faut double-cliquer sur le fichier **"Méta-instrument iPhone.bat"** ou en fonction de l'utilisation sur **"Méta-instrument Manette Bluetooth.bat"**. Dans ce dernier cas, il est impératif d'avoir connecté sa manette en Bluetooth au téléphone et d'avoir coché **Controller** dans Data OSC.
 
-6. Il est possible d'ajouter des musiques. Nous avons utilisés [spotDL](https://github.com/spotDL/spotify-downloader) pour obtenir les chansons voulues et notamment pour récupérer leurs miniatures qui sont affichées dans l'interface graphique. Les chansons sont à ajouter au format **.mp3** dans le dossier **Chansons**.
+6. Il est possible d'ajouter des musiques. Nous avons utilisé [spotDL](https://github.com/spotDL/spotify-downloader) pour obtenir les chansons voulues et notamment pour récupérer leurs miniatures qui sont affichées dans l'interface graphique. Les chansons sont à ajouter au format **.mp3** dans le dossier **Chansons**.
 
 <h2 id="utilisés-dans-ce-projet">Utilisés dans ce projet</h2>
 

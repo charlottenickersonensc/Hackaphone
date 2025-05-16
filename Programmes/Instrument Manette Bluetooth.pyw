@@ -392,20 +392,7 @@ jouer_chanson(index_chanson_actuelle)
 
 # Réception des messages OSC avec dispatcher
 disp = dispatcher.Dispatcher()
-disp.map("/data/gameController/stick/left/y", ajuster_parametres)
-disp.map("/data/gameController/shoulder/left", ajuster_parametres)
-disp.map("/data/gameController/shoulder/right", ajuster_parametres)
-disp.map("/data/gameController/action/left", ajuster_parametres)
-disp.map("/data/gameController/action/right", ajuster_parametres)
-disp.map("/data/gameController/action/down", ajuster_parametres)
-disp.map("/data/gameController/action/up", ajuster_parametres)
-disp.map("/data/gameController/dpad/left", ajuster_parametres)
-disp.map("/data/gameController/dpad/right", ajuster_parametres)
-disp.map("/data/gameController/dpad/down", ajuster_parametres)
-disp.map("/data/gameController/dpad/up", ajuster_parametres)
-disp.map("/data/gameController/options", ajuster_parametres)
-disp.map("/data/gameController/menu", ajuster_parametres)
-disp.map("/data/gameController/stick/right/active", ajuster_parametres)
+disp.map("/data/*", ajuster_parametres)
 
 # Initialisation du serveur OSC
 osc = osc_server.ThreadingOSCUDPServer(('0.0.0.0', 8000), disp)
