@@ -1,0 +1,23 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #d6ffda;
+  line-height: 1.6;
+}
+
+header p {
+  margin: .25rem 0;
+  font-size: .9rem;
+}
+
+.github {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.github:hover {
+  text-decoration: underline;
+}
+
+section {
+  scroll-margin-top: 40px;
+}

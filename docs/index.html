@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+  
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="description" content="Retrouvez-ici un point de vue global de notre projet transdisciplinaire Hackaphone !"/>
+    <meta name="keywords" content="projet, transdisciplinaire, hackaphone, musique, téléphone, manette, ordinateur, Python"/>
+    <meta name="author" content="La team Hackaphone"/>
+    <meta name="copyright" content="La team Hackaphone"/>
+    <meta name="robots" content="noindex,nofollow"/>
+    <title>Hackaphone</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+      <div class="container">
+        <a class="navbar-brand">
+          <img src="assets/logo.png" alt="Logo Hackaphone" style="height: 60px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="#objectifs">Objectifs</a></li>
+            <li class="nav-item"><a class="nav-link" href="#outils">Outils et moyens</a></li>
+            <li class="nav-item"><a class="nav-link" href="#resultats">Résultats</a></li>
+            <li class="nav-item"><a class="nav-link" href="#gestion">Gestion de projet</a></li>
+            <li class="nav-item"><a class="nav-link" href="#acquis">Acquis pédagogiques</a></li>
+            <li class="nav-item"><a class="nav-link" href="#ddrse">DD&amp;RSE</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <header class="bg-success text-white py-4">
+      <div class="container text-center">
+        <h1>Hackaphone</h1>
+        <p>2024-2025 | Projet Transdisciplinaire</p>
+        <p>Équipe :
+          <a href="https://github.com/nalokage" class="github" target="_blank">Jolan Mazouffre</a>,
+          <a href="https://github.com/charlottenickersonensc" class="github" target="_blank">Charlotte Nickerson</a>,
+          <a href="https://github.com/baptiste5403" class="github" target="_blank">Baptiste Pawelczyk</a>,
+          <a href="https://github.com/alyaa203" class="github" target="_blank">Alyaa Saab</a>
+        </p>
+        <p>Client &amp; tuteur : Maxime Poret</p>
+      </div>
+    </header>
+
+    <main class="container my-5">
+      <div class="text-center mb-5">
+        <div class="text-center mb-5">
+          <img src="assets/interface.gif" alt="Interface graphique du méta-instrument avec une manette Bluetooth" class="img-fluid rounded" width="600px">
+          <p class="mt-2">Interface graphique du méta-instrument avec une manette Bluetooth</p>
+        </div>
+      </div>
+
+      <section id="objectifs" class="mb-5">
+        <h2 class="h3 mb-3">Objectifs</h2>
+        <p>Notre but est de développer un méta-instrument (outil d'interaction musicale permettant de contrôler un rendu musical informatique) pour la performance musicale. Ce dernier peut être contrôlé par un téléphone portable ou une manette Bluetooth. Voici les principaux objectifs du projet :</p>
+        <ul>
+          <li>Capturer le mouvement d'un téléphone via des données OSC (Open Sound Control) vers un ordinateur</li>
+          <li>Modification en temps réel de la vitesse d'une musique</li>
+          <li>Application d'effets audios et de sons qui permettent de renforcer l'aspect artistique de la musique</li>
+          <li>Une interface graphique visuelle pour comprendre à quoi correspondent les différents effets et comment les activer</li>
+          <li>Une visualisation colorée et synchronisée par rapport à la musique en temps réel</li>
+        </ul>
+      </section>
+
+      <div class="text-center mb-5">
+        <div class="text-center mb-5">
+          <img src="assets/visualisation.png" alt="Visualisation colorée et synchronisé avec la musique en cours de lecture" class="img-fluid rounded" width="600px">
+          <p class="mt-2">Visualisation colorée et synchronisé avec la musique en cours de lecture</p>
+        </div>
+      </div>
+
+      <section id="outils" class="mb-5">
+        <h2 class="h3 mb-3">Outils et moyens</h2>
+        <p>Concernant les outils que nous avons utilisés durant le projet, ils sont plusieurs et nous avons pu toucher à tout :</p>
+        <ul>
+          <li>Nous avons commencé en utilisant le logiciel Pure Data pour la génération sonore</li>
+          <li>Sur téléphone, ce sont des applications mobiles telles que Mrmr OSC Controller Data OSC pour l'envoi des données du téléphone à l'ordinateur</li>
+          <li>Nous avons baculé sur Python au détriment de Pure Data pour sa plus grande facilité d'accessibilité, avec notamment la bibliothèque <code>pyo</code> pour le traitement audio</li>
+          <li>Nous avons aussi utilisé la bibliothèque matplotlib de Python pour l'analyse graphique et la visualisation</li>
+          <li>Enfin, au niveau matériel, nous avons utilisé une manette Switch Pro pour son ergonomie et sa précision</li>
+        </ul>
+      </section>
+
+      <div class="text-center mb-5">
+        <div class="text-center mb-5">
+          <img src="assets/principe.png" alt="Schéma de principe d'envoi des données OSC" class="img-fluid rounded" width="600px">
+          <p class="mt-2">Schéma de principe d'envoi des données OSC</p>
+        </div>
+      </div>
+
+      <section id="resultats" class="mb-5">
+        <h2 class="h3 mb-3">Résultats</h2>
+      </section>
+
+      <section id="produit" class="mb-5">
+        <h5 class="h5 mb-3">Produit proposé</h5>
+        <p>Aujourd'hui, nous proposons un méta-instrument disponible sur téléphone portable et sur manette Bluetooth. Celui-ci s'applique à une musique jouée en temps réel et a les fonctionnalités suivantes :</p>
+        <ul>
+          <li>Modification de la vitesse d'une musique jouée en temps réel</li>
+          <li>Application d'un filtre passe-bande sur la musique pour garder les basses ou hautes fréquences de la musique</li>
+          <li>Application d'effets à la musique (chorus, distorsion, écho et réverbération)</li>
+          <li>Possibilité de passer à la musique suivante</li>
+          <li>Passage à la musique suivante lorsque la musique se termine (adaptation en temps réel en fonction de sa vitesse de lecture)</li>
+        </ul>
+        <p>Les fonctionnalités ci-dessus s'appliquent au méta-instrument sur téléphone portable. La version sur manette Bluetooth possède ces ajouts ainsi que ceux-ci :</p>
+        <ul>
+          <li>Possibilité de jouer des sons de batterie par dessus la musique (grosse caisse, caisse claire, cymbale et hi-hat)</li>
+          <li>Blocage de la vitesse de la musique ou de sa fréquence à l'aide de boutons</li>
+          <li>Changement de fenêtre pour voir la visualisation de la musique jouée simplement en appuyant sur un joystick</li>
+        </ul>
+      </section>
+
+      <section id="tests" class="mb-5">
+        <h5 class="h5 mb-3">Tests utilisateurs</h5>
+        <p>Nous avons fait passer des tests utilisateurs concernant le méta-instrument sur téléphone ainsi que sur manette Bluetooth. Nous avons souhaité connaître l’avis de personnes afin de savoir si le projet était accessible et fun à utiliser. 5 personnes se sont portées volontaires pour ces tests. Voici un résumé des résultats qui sont ressortis :</p>
+        <ul>
+          <li>100 % jugent l'interface manette facile à prendre en main</li>
+          <li>80 % des personnes reconnaissent une immersion totale sur manette contre 40 % sur mobile</li>
+          <li>100 % des personnes recommandent la manette pour sa précision et son intuitivité</li>
+        </ul>
+      </section>
+
+      <section id="gestion" class="mb-5">
+        <h2 class="h3 mb-3">Gestion de projet</h2>
+      </section>
+
+      <section id="equipe" class="mb-5">
+        <h5 class="h5 mb-3">Notre équipe</h5>
+        <p>L'équipe Hackaphone s'est constituée au début du mois de septembre 2024 autour de quatre membres : Jolan Mazouffre, Charlotte Nickerson, Baptiste Pawelczyk et Alyaa Saab. Nous avons choisi de répondre à une proposition de projet soumise par notre client, Maxime Poret. Cette initiative s'inscrit dans une démarche transdisciplinaire, rassemblant quatre élèves-ingénieurs aux parcours académiques variés :</p>
+        <ul>
+          <li>Jolan Mazouffre : formation en classe préparatoire filière PSI</li>
+          <li>Charlotte Nickerson : Master en informatique, spécialisation en interaction homme-machine</li>
+          <li>Baptiste Pawelczyk : formation en classe préparatoire filière PC</li>
+          <li>Alyaa Saab : formation en classe préparatoire filière PC</li>
+        </ul>
+      </section>
+
+      <section id="methode" class="mb-5">
+        <h5 class="h5 mb-3">Méthode de travail</h5>
+        <p>Notre approche méthodologique variait en fonction de la nature des tâches à accomplir. Pour les tâches simples ou de faible envergure, nous procédions à une répartition équitable afin de travailler en autonomie. Chaque membre informait ensuite le reste de l'équipe dès qu'une tâche était achevée ou avait franchi une étape importante, assurant ainsi une transparence constante sur l'avancement global du projet.</p>
+        <p>À l'inverse, pour les tâches plus complexes ou fastidieuses, nous privilégions un travail en collaboration directe. Cette organisation nous permettait non seulement de garantir une bonne cohésion et compréhension mutuelle, mais aussi d'optimiser notre efficacité collective.</p>
+      </section>
+
+      <section id="repartition" class="mb-5">
+        <h5 class="h5 mb-3">Répartition du travail</h5>
+        <p>Aucun rôle fixe n'a été attribué au sein de l'équipe. Les tâches ont été réparties en fonction des préférences individuelles et des compétences de chacun, favorisant ainsi l'engagement et la complémentarité des membres dans la réalisation du projet.</p>
+      </section>
+
+      <section id="planification" class="mb-5">
+        <h5 class="h5 mb-3">Organisation et planification</h5>
+        <p>Notre projet consistait à élaborer un méta-instrument (outil d'interaction musicale permettant de contrôler un rendu musical informatique) pour la performance musicale. Les différentes étapes qui nous ont permis de réaliser notre travail ont été décidées ensemble au fur et à mesure que l'on avançait dans le projet.</p>
+        <p>Ainsi nous avons d'abord effectuer un état de l'art, ensuite nous nous sommes entretenus avec notre client pour mieux connaître les besoins du projet, puis sur la base de ces informations nous avons pu développer au mieux les attentes demandées. Enfin nous avons fait des tests utilisateurs et ajusté le projet en fonction des retours obtenus.</p>
+      </section>
+
+      <section id="difficultes" class="mb-5">
+        <h5 class="h5 mb-3">Difficultés rencontrées</h5>
+        <p>Nous avons rencontré plusieurs obstacles, notamment dans la recherche d'utilisateurs pour les tests, où nous espérions en avoir plus.</p>
+        <p>Au début du projet, nous avions aussi l'intention de faire des tests auprès de musiciens expérimentés. Cette accès ne s'est révélé au final pas nécessaire car ce projet a plus un but "grand public" cherchant à toucher les gens plutôt débutants et non experts dans le domaine de la musique, ce qui leur permet ainsi de devenir DJ sans fournir beaucoup d'efforts.</p>
+        <p>Enfin, la gestion de l'interdisciplinarité a demandé un effort constant de coordination entre exigences techniques et objectifs artistiques.</p>
+      </section>
+
+      <section id="risques" class="mb-5">
+        <h5 class="h5 mb-3">Matrice des risques</h5>
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle bg-white">
+            <thead class="table-success">
+              <tr>
+                <th>Référence</th><th>Risque</th><th>Impact</th>
+                <th>Gravité</th><th>Probabilité</th><th>Niveau</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>R1</td>
+                <td style="background-color: #fff9db;">Portabilité du code sur une autre plateforme (macOS, Linux)</td>
+                <td>Bibliothèques propres à Windows non compatibles</td>
+                <td style="background-color: #fff9db;">Indésirable</td>
+                <td style="background-color: #fddede;">Probable</td>
+                <td style="background-color: #ffdcb5;">Haut</td>
+              </tr>
+              <tr>
+                <td>R2</td>
+                <td style="background-color: #fff9db;">Portabilité du code pour une utilisation sur Android (avec OSC Controller)</td> <!-- possible jaune pâle -->
+                <td>Le code avec des adresses OSC erronées</td>
+                <td style="background-color: #c9dfff;">Tolérable</td>
+                <td style="background-color: #fff9db;">Possible</td>
+                <td style="background-color: #fff9db;">Moyen</td>
+              </tr>
+              <tr>
+                <td>R3</td>
+                <td style="background-color: #fff9db;">Obsolescence du protocole Open Sound Control (OSC)</td>
+                <td>Le code en lui-même</td>
+                <td style="background-color: #fff9db;">Indésirable</td>
+                <td style="background-color: #d4f5d1;">Improbable</td>
+                <td style="background-color: #ffdcb5;">Haut</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="planning" class="mb-5">
+        <h5 class="h5 mb-3">Planning</h5>
+        <p>À FAIRE</p>
+      </section>
+
+      <section id="acquis" class="mb-5">
+        <h2 class="h3 mb-3">Acquis pédagogiques</h2>
+        <p>Au cours du projet, nous avons été amenés à développer des compétences techniques et méthodologiques nous permettant d'aborder la conception d'un instrument de musique doté d'une interface interactive intégrant des dimensions sonores. Nous avons mis à profit l'interdisciplinarité du projet et appris à être autonomes, tout en développant notre créativité artistique en tenant compte de l'expérience utilisateur. Du point de vue des compétences spécifiques, les voici :</p>
+        <ul>
+          <li>Conception et prototypage d'une interface permettant de jouer avec le son en temps réel</li>
+          <li>Usage avancé du protocole OSC et des bibliothèques audio de Python</li>
+          <li>Création de visualisations qui répondent à de la musique en temps réel</li>
+          <li>Gestion de projet transdisciplinaire</li>
+        </ul>
+      </section>
+
+      <section id="ddrse" class="mb-5">
+        <h2 class="h3 mb-3">Développement Durable & Responsabilité Sociétale & Environnementale</h2>
+        <p>Dans le cadre du respect des exigences environnementales du Plan Vert et de la loi Grenelle, notre équipe a pris plusieurs mesures concrètes afin de minimiser l’empreinte écologique de notre projet et du site ici présent.</p>
+        <p>Nous avons optimisé la taille des images afin de réduire la consommation énergétique liée à leur chargement et aux transferts de données, contribuant ainsi à limiter l’impact des infrastructures numériques.</p>
+        <p>Par ailleurs, nous avons appliqué les principes du Green Coding : notre code a été rédigé de manière efficace et épurée, afin d’alléger le poids des pages et de limiter la sollicitation des ressources matérielles.</p>
+        <p>Sur le plan des enjeux sociaux, nous avons veillé à concevoir une interface accessible, incluant un contraste adapté pour la lisibilité ainsi que des alternatives textuelles aux éléments visuels, permettant à l’ensemble des utilisateurs, y compris ceux en situation de handicap, de naviguer sur le site dans les meilleures conditions.</p>
+      </section>
+    </main>
+
+    <div class="text-center" style="margin-bottom: 0;">
+      <img id="chat" src="assets/chat.png" alt="Photo de chat mignon" class="img-fluid" style="max-width:150px;">
+    </div>
+
+    <footer class="bg-dark text-light text-center py-3">
+      &copy; 2024-2025 La team Hackaphone | <a href="https://github.com/charlottenickersonensc/Hackaphone" class="text-light text-decoration-underline" target="_blank">Dépôt GitHub</a>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+  
+</html>
