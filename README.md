@@ -31,7 +31,7 @@
 
 <h2 id="à-propos-du-projet">À propos du projet</h2>
 
-<img src="Hackaphone.png" alt="Interface graphique du méta-instrument avec une manette Bluetooth" />
+<img src="Hackaphone.gif" alt="Interface graphique du méta-instrument avec une manette Bluetooth" />
 
 ## Devenez DJ avec Hackaphone !
 

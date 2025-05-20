@@ -18,7 +18,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-success">
       <div class="container">
         <a class="navbar-brand">
-          <img src="assets/logo.png" alt="Logo Hackaphone" style="height: 60px;">
+          <img src="assets/logo.png" alt="Logo Hackaphone">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNav" aria-controls="navbarNav"
@@ -55,7 +55,7 @@
     <main class="container my-5">
       <div class="text-center mb-5">
         <div class="text-center mb-5">
-          <img src="assets/interface.gif" alt="Interface graphique du méta-instrument avec une manette Bluetooth" class="img-fluid rounded" width="600px">
+          <img src="assets/interface.gif" alt="Interface graphique du méta-instrument avec une manette Bluetooth" class="img-fluid rounded">
           <p class="mt-2">Interface graphique du méta-instrument avec une manette Bluetooth</p>
         </div>
       </div>
@@ -74,7 +74,7 @@
 
       <div class="text-center mb-5">
         <div class="text-center mb-5">
-          <img src="assets/visualisation.png" alt="Visualisation colorée et synchronisé avec la musique en cours de lecture" class="img-fluid rounded" width="600px">
+          <img src="assets/visualisation.png" alt="Visualisation colorée et synchronisé avec la musique en cours de lecture" class="img-fluid rounded">
           <p class="mt-2">Visualisation colorée et synchronisé avec la musique en cours de lecture</p>
         </div>
       </div>
@@ -83,20 +83,20 @@
         <h2 class="h3 mb-3">Outils et moyens</h2>
         <p>Concernant les outils que nous avons utilisés durant le projet, ils sont plusieurs et nous avons pu toucher à tout :</p>
         <ul>
-          <li>Nous avons commencé en utilisant le logiciel Pure Data pour la génération sonore</li>
-          <li>Sur téléphone, ce sont des applications mobiles telles que Mrmr OSC Controller Data OSC pour l'envoi des données du téléphone à l'ordinateur</li>
-          <li>Nous avons baculé sur Python au détriment de Pure Data pour sa plus grande facilité d'accessibilité, avec notamment la bibliothèque <code>pyo</code> pour le traitement audio</li>
-          <li>Nous avons aussi utilisé la bibliothèque matplotlib de Python pour l'analyse graphique et la visualisation</li>
+          <li>Nous avons commencé en utilisant le logiciel <a href="https://puredata.info/" class="text-dark text-decoration-underline" target="_blank">Pure Data</a> pour la génération sonore</li>
+          <li>Sur téléphone, ce sont des applications mobiles telles que <a href="https://apps.apple.com/fr/app/mrmr-osc-controller/id294296343" class="text-dark text-decoration-underline" target="_blank">Mrmr OSC Controller</a> et <a href="https://apps.apple.com/fr/app/data-osc/id6447833736" class="text-dark text-decoration-underline" target="_blank">Data OSC</a> pour l'envoi des données du téléphone à l'ordinateur</li>
+          <li>Nous avons basculé sur <a href="https://www.python.org/downloads/release/python-3119/" class="text-dark text-decoration-underline" target="_blank">Python</a> au détriment de Pure Data pour sa plus grande facilité d'accessibilité, avec notamment la bibliothèque <a href="https://pypi.org/project/pyo/" class="text-dark text-decoration-underline" target="_blank">pyo</a> pour le traitement audio</li>
+          <li>Nous avons aussi utilisé la bibliothèque <a href="https://matplotlib.org/" class="text-dark text-decoration-underline" target="_blank">matplotlib</a> de Python pour l'analyse graphique et la visualisation</li>
           <li>Enfin, au niveau matériel, nous avons utilisé une manette Switch Pro pour son ergonomie et sa précision</li>
         </ul>
-      </section>
-
-      <div class="text-center mb-5">
         <div class="text-center mb-5">
-          <img src="assets/principe.png" alt="Schéma de principe d'envoi des données OSC" class="img-fluid rounded" width="600px">
+          <img src="assets/principe.png" alt="Schéma de principe d'envoi des données OSC" class="img-fluid rounded">
           <p class="mt-2">Schéma de principe d'envoi des données OSC</p>
         </div>
-      </div>
+        <p><u>Explication du schéma</u> : dans ce programme, deux serveurs sont utilisés pour créer un lecteur musical interactif. Le premier est un serveur audio fourni par la bibliothèque pyo, chargé de lire les fichiers musicaux, de leur appliquer des effets, et de permettre le contrôle en temps réel de la vitesse ou du filtrage fréquentiel. Ce serveur constitue le cœur du traitement sonore.</p>
+        <p>Le second est un serveur OSC (Open Sound Control), qui écoute les messages entrant sur le port 8000. Ces messages proviennent de données du téléphone à l'aide de l'application mobile Data OSC et permettent de modifier dynamiquement les paramètres audio ou de passer à une autre chanson.</p>
+        <p>Dans le cas de la manette Switch Pro, cette dernière est connectée au téléphone (par Bluetooth) et ses actions (par exemple, modification de la valeur des joysticks) sont transmises au téléphone avant d'être transmises à l'ordinateur.</p>
+      </section>      
 
       <section id="resultats" class="mb-5">
         <h2 class="h3 mb-3">Résultats</h2>
@@ -128,6 +128,11 @@
           <li>80 % des personnes reconnaissent une immersion totale sur manette contre 40 % sur mobile</li>
           <li>100 % des personnes recommandent la manette pour sa précision et son intuitivité</li>
         </ul>
+        <p>Voici quelques exemples des histogrammes des réponses du questionnaire à propos de la comparaison téléphone/manette :</p>
+        <div class="text-center mb-5">
+          <img src="assets/histogramme1.png" alt="Histogramme répondant à la question 'Quel support vous a semblé le plus intuitif à utiliser ?'" class="img-fluid rounded">
+          <img src="assets/histogramme2.png" alt="Histogramme répondant à la question 'Avez-vous perçu une différence dans la réactivité du son entre les deux ?'" class="img-fluid rounded">
+        </div>
       </section>
 
       <section id="gestion" class="mb-5">
@@ -160,6 +165,247 @@
         <h5 class="h5 mb-3">Organisation et planification</h5>
         <p>Notre projet consistait à élaborer un méta-instrument (outil d'interaction musicale permettant de contrôler un rendu musical informatique) pour la performance musicale. Les différentes étapes qui nous ont permis de réaliser notre travail ont été décidées ensemble au fur et à mesure que l'on avançait dans le projet.</p>
         <p>Ainsi nous avons d'abord effectuer un état de l'art, ensuite nous nous sommes entretenus avec notre client pour mieux connaître les besoins du projet, puis sur la base de ces informations nous avons pu développer au mieux les attentes demandées. Enfin nous avons fait des tests utilisateurs et ajusté le projet en fonction des retours obtenus.</p>
+        <p>Voici donc sur l'année, le planning réel du projet et de ses avancées, réparties sur les semestres 5 et 6 :</p>
+        <div class="table-responsive">
+          <table class="table table-bordered text-center align-middle">
+            <colgroup>
+              <col style="width: 350px;">
+              <col span="18" style="width: 50px;">
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col">Semestre 5</th>
+                <th>S38</th><th>S39</th><th>S40</th><th>S41</th><th>S42</th><th>S43</th>
+                <th>S44</th><th>S45</th><th>S46</th><th>S47</th><th>S48</th><th>S49</th>
+                <th>S50</th><th>S51</th><th>S52</th><th>S1</th><th>S2</th><th>S3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th style="background-color:#FFDAB9;">État de l'art</th>
+                <td style="background-color:#FFDAB9;"></td>
+                <td style="background-color:#FFDAB9;"></td>
+                <td></td><td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <th style="background-color:#ADD8E6;">Gestion de la transmission des données</th>
+                <td></td>
+                <td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td>
+                <td></td><td></td><td></td><td></td><td></td><td></td>
+                <td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td>
+                <td></td><td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <th style="background-color:#ADD8E6;">Analyse des degrés de liberté du capteur</th>
+                <td></td><td></td><td></td><td></td>
+                <td style="background-color:#ADD8E6;"></td>
+                <td></td><td></td>
+                <td style="background-color:#ADD8E6;"></td><td></td>
+                <td></td><td></td>
+                <td style="background-color:#ADD8E6;"></td>
+                <td></td><td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <th style="background-color:#ADD8E6;">Programmation et synthèse musicale</th>
+                <td></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td>
+              </tr>
+              <tr>
+                <th style="background-color:#ADD8E6;">Traitement du signal</th>
+                <td></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td style="background-color:#ADD8E6;"></td>
+              </tr>
+              <tr>
+                <th style="background-color:#ADD8E6;">Rendu sonore</th>
+                <td></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td style="background-color:#ADD8E6;"></td>
+                <td></td><td></td>
+                <td style="background-color:#ADD8E6;"></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td style="background-color:#ADD8E6;"></td>
+              </tr>
+              <tr>
+                <th style="background-color:#90EE90;">Analyse du geste</th>
+                <td></td>
+                <td style="background-color:#90EE90;"></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td>
+                <td style="background-color:#90EE90;"></td>
+                <td></td><td></td>
+                <td style="background-color:#90EE90;"></td>
+                <td></td><td></td>
+                <td></td><td></td><td></td>
+                <td style="background-color:#90EE90;"></td>
+              </tr>
+              <tr>
+                <th style="background-color:#90EE90;">Ergonomie et utilisabilité du méta-instrument</th>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td>
+                <td style="background-color:#90EE90;"></td>
+                <td></td><td></td><td></td>
+                <td style="background-color:#90EE90;"></td><td style="background-color:#90EE90;"></td>
+              </tr>
+              <tr>
+                <th style="background-color:#E1BEE7;">Génération d'un visuel</th>
+                <td></td><td></td>
+                <td style="background-color:#E1BEE7;"></td><td style="background-color:#E1BEE7;"></td>
+                <td style="background-color:#E1BEE7;"></td><td style="background-color:#E1BEE7;"></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td>
+              </tr>
+              <tr>
+                <th style="background-color:#E1BEE7;">Développement sur manette Bluetooth</th>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td style="background-color:#E1BEE7;"></td><td style="background-color:#E1BEE7;"></td>
+                <td></td><td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <th style="background-color:#D3D3D3;">Documentation de guidage</th>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td>
+                <td style="background-color:#D3D3D3;"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered text-center align-middle">
+            <colgroup>
+              <col style="width: 350px;">
+              <col span="18" style="width: 50px;">
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col">Semestre 6</th>
+                <th>S4</th><th>S5</th><th>S6</th><th>S7</th><th>S8</th><th>S9</th>
+                <th>S10</th><th>S11</th><th>S12</th><th>S13</th><th>S14</th><th>S15</th>
+                <th>S16</th><th>S17</th><th>S18</th><th>S19</th><th>S20</th><th>S21</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th style="background-color:#FFDAB9;">Recherche des applications pour Android</th>
+                <td style="background-color:#FFDAB9;"></td>
+                <td></td><td></td>
+                <td style="background-color:#FFDAB9;"></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <th style="background-color:#ADD8E6;">Amélioration du code pour le téléphone</th>
+                <td></td><td></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <th style="background-color:#ADD8E6;">Programmation et synthèse musicale</th>
+                <td></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td><td style="background-color:#ADD8E6;"></td>
+                <td style="background-color:#ADD8E6;"></td>
+                <td></td><td></td>
+              </tr>
+              <tr>
+                <th style="background-color:#90EE90;">Ergonomie et utilisabilité du méta-instrument</th>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td style="background-color:#90EE90;"></td><td style="background-color:#90EE90;"></td>
+                <td style="background-color:#90EE90;"></td>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <th style="background-color:#90EE90;">Tests utilisateurs</th>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td style="background-color:#90EE90;"></td><td style="background-color:#90EE90;"></td>
+                <td style="background-color:#90EE90;"></td><td style="background-color:#90EE90;"></td>
+                <td style="background-color:#90EE90;"></td>
+              </tr>
+              <tr>
+                <th style="background-color:#E1BEE7;">Interface visuelle interactive</th>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td style="background-color:#E1BEE7;"></td><td style="background-color:#E1BEE7;"></td>
+                <td style="background-color:#E1BEE7;"></td><td style="background-color:#E1BEE7;"></td>
+                <td style="background-color:#E1BEE7;"></td>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <th style="background-color:#E1BEE7;">Génération de visuels</th>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td style="background-color:#E1BEE7;"></td><td style="background-color:#E1BEE7;"></td>
+                <td style="background-color:#E1BEE7;"></td><td style="background-color:#E1BEE7;"></td>
+                <td style="background-color:#E1BEE7;"></td><td style="background-color:#E1BEE7;"></td>
+                <td style="background-color:#E1BEE7;"></td><td style="background-color:#E1BEE7;"></td>
+                <td></td><td></td>
+              </tr>
+              <tr>
+                <th style="background-color:#E1BEE7;">Développement sur manette Bluetooth</th>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td style="background-color:#E1BEE7;"></td><td style="background-color:#E1BEE7;"></td>
+                <td style="background-color:#E1BEE7;"></td><td style="background-color:#E1BEE7;"></td>
+                <td style="background-color:#E1BEE7;"></td><td style="background-color:#E1BEE7;"></td>
+                <td style="background-color:#E1BEE7;"></td>
+                <td></td><td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <th style="background-color:#D3D3D3;">Documentation de guidage</th>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td>
+                <td style="background-color:#D3D3D3;"></td><td style="background-color:#D3D3D3;"></td>
+                <td style="background-color:#D3D3D3;"></td><td style="background-color:#D3D3D3;"></td>
+              </tr>
+              <tr>
+                <th style="background-color:#ffe478;">Réalisation du site</th>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td><td></td>
+                <td></td>
+                <td style="background-color:#ffe478;"></td><td style="background-color:#ffe478;"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section id="difficultes" class="mb-5">
@@ -199,7 +445,7 @@
               <tr>
                 <td>R3</td>
                 <td style="background-color: #fff9db;">Obsolescence du protocole Open Sound Control (OSC)</td>
-                <td>Le code en lui-même</td>
+                <td>Le méta-instrument ne fonctionnerait plus car il ne recevrait plus de données</td>
                 <td style="background-color: #fff9db;">Indésirable</td>
                 <td style="background-color: #d4f5d1;">Improbable</td>
                 <td style="background-color: #ffdcb5;">Haut</td>
@@ -207,16 +453,16 @@
             </tbody>
           </table>
         </div>
-      </section>
-
-      <section id="planning" class="mb-5">
-        <h5 class="h5 mb-3">Planning</h5>
-        <p>À FAIRE</p>
+        <ul>
+          <li>Concernant le risque R1, le risque vient uniquement de la bibliothèque <a href="https://pypi.org/project/pywin32/" class="text-dark text-decoration-underline" target="_blank">pywin32</a> que nous utilisons pour le méta-instrument avec la manette Bluetooth : cette bibliothèque intervient uniquement pour mettre à contribution un bouton sur la manette qui permet de changer facilement d'interface graphique (interface avec la manette et visualisation colorée). C'est pour cela qu'une portabilité du code sur une autre plateforme induirait très probablement un dysfonctionnement concernant cette bibliothèque, mais ce serait facile à résoudre car cette fonctionnalité n'est utilisée qu'une seule fois dans le code.</li>
+          <li>Le risque R2 est quant à lui possible vu que les données OSC envoyées possèdent une adresse spécifique et il est très probable que l'utilisation d'une application différente (comme par exemple OSC Controller sur Android) mènerait à changer dans le code les adresses à écouter par le serveur.</li>
+          <li>Enfin, le risque R3 couvre la possibilité que le méta-instrument ne fonctionnerait plus s'il ne recevrait plus de données. A priori, cette possibilité peut être considérée comme improbable car du moment qu'on utilise les bonnes versions des bibliothèques du projet, il y a toutes les chances pour que le code fonctionne. Seul le retrait de l'application mobile Data OSC sur l'App Store serait un vrai problème, car il faudrait trouver un moyen de substitution.</li>
+        </ul>
       </section>
 
       <section id="acquis" class="mb-5">
         <h2 class="h3 mb-3">Acquis pédagogiques</h2>
-        <p>Au cours du projet, nous avons été amenés à développer des compétences techniques et méthodologiques nous permettant d'aborder la conception d'un instrument de musique doté d'une interface interactive intégrant des dimensions sonores. Nous avons mis à profit l'interdisciplinarité du projet et appris à être autonomes, tout en développant notre créativité artistique en tenant compte de l'expérience utilisateur. Du point de vue des compétences spécifiques, les voici :</p>
+        <p>Au cours du projet, nous avons été amenés à développer des compétences techniques et méthodologiques nous permettant d'aborder la conception d'un instrument de musique doté d'une interface interactive intégrant des dimensions sonores. Nous avons mis à profit l'interdisciplinarité du projet et appris à être autonomes, tout en développant notre créativité artistique en tenant compte de l'expérience utilisateur. Les compétences sont plus spécifiquement les suivantes :</p>
         <ul>
           <li>Conception et prototypage d'une interface permettant de jouer avec le son en temps réel</li>
           <li>Usage avancé du protocole OSC et des bibliothèques audio de Python</li>
